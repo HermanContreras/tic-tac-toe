@@ -37,9 +37,9 @@ const gameBoard = (() => {
       if(board[5] === piece && board[2] === piece) return true;
       if(board[7] === piece && board[6] === piece) return true;
     }
-    else if(board[6] === piece && board[4] === piece && board[2]) return true;
-    else if(board[1] === piece && board[4] === piece && board[7]) return true;
-    else if(board[3] === piece && board[4] === piece && board[5]) return true;
+    else if(board[6] === piece && board[4] === piece && board[2] === piece) return true;
+    else if(board[1] === piece && board[4] === piece && board[7] === piece) return true;
+    else if(board[3] === piece && board[4] === piece && board[5] === piece) return true;
     else return false;
   }
   
@@ -68,8 +68,20 @@ const displayController = (() => {
     _moveListen(event, player);
   }
 
+  const message = (str) => {
+    
+    const body = document.querySelector('body');
+    const message = document.createElement('div');
+    message.classList.add('message');
+
+    message.appendChild(document.createTextNode(str));
+    body.appendChild(message);
+  }
+  
+
   return {
-    newMove
+    newMove,
+    message
   }
 })();
 
@@ -93,9 +105,11 @@ const displayController = (() => {
       //Check if player who just moved has won
       if(gameBoard.winner(cur.piece)){
         console.log(`Player ${cur.piece} Has Won`);
+        displayController.message(`Player ${cur.piece} Has Won`);
       }
       else if(gameBoard.draw()) {
         console.log('Draw');
+        displayController.message(`Game Is A Tie!`);
       }
 
       one.turn = !one.turn;
